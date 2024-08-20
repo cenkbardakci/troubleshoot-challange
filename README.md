@@ -63,11 +63,10 @@ What kind of possible problems do you see with that configuration?
 There are 3 important issues on this deployment strategy. 
 
 ### 1- Single Point of Failure 
-###   2- Network Latency 
-###    3- Regional Failure
-
 - 1 - Single Point of Failure If we keep us-west-1a as 1 AZ when the AZ outage happen we lost the region . 
+### 2- Network Latency 
 - 2 - Networks are in different region and of course milisecond latencies will be happen . Of course you can go with the cloudfront or vpc peering but why you implement extra service ? 
+### 3- Regional Failure
 - 3 - If we lost us-east region then we have 1 instance and service is not going to run. That is another issue. 
 
 Recommendation is create 4 AZ in same region if regions AZ count is match. And of cource create another region with 4 AZ for any means by necessary. If your services support you can also create active passive deployment.  
@@ -104,8 +103,8 @@ kubectl top pods
 
 You can follow up these steps 
 
-- Sticky Sessions (If client redirects same pod repetitively) Solution "sessionAffinity: None"
-- Load Balancing IPtables vs IPVS (iptables offer round robbing IPVS is more sophisticated) Solution: "--proxy-mode=ipvs" after check the mode "kubectl describe configmap kube-proxy -n kube-system"
+- Sticky Sessions (If client redirects same pod repetitively) Solution `sessionAffinity: None`
+- Load Balancing IPtables vs IPVS (iptables offer round robbing IPVS is more sophisticated) Solution: `--proxy-mode=ipvs` after check the mode `kubectl describe configmap kube-proxy -n kube-system`
 - Check Pods Resource Usage with kubectl top pods if pods are not balanced. 
 - Readiness / Liveness Prod: check configs are correct and not too agressive. 
 
