@@ -1,10 +1,8 @@
-#Take Home Assignment for Deployment Engineer positions
+# Take Home Assignment for Deployment Engineer positions
 
-This exercise is to get a general feeling about the technical problems you have
-worked on and about how comfortable you are working in certain areas.
+### This exercise is to get a general feeling about the technical problems you have worked on and about how comfortable you are working in certain areas.
 
-It should ideally not take more than 1-4 hours of your time. Feel free to use any
-sources of information you like.
+### It should ideally not take more than 1-4 hours of your time. Feel free to use any sources of information you like.
 
 ## 1. Review the following Dockerfile for broken things and general best practices:
 ```
@@ -33,12 +31,17 @@ ENTRYPOINT ["poetry", "run"]
 CMD ["uvicorn", "--host=0.0.0.0", "--port=$PORT", "--workers=$UVICORN_WORKERS"]
 ```
 
-## 2. You have one aws account with an ECR repository and another one with
+## 2. Question
+
+You have one aws account with an ECR repository and another one with
 an iam user.
 The IAM user should be able to assume a role in the ecr aws account and
 push docker images to the ecr repository.
 Briefly outline the missing parts.
-## 3. You have a service spread out over 4 ec2 instances.
+
+## 3. Question
+
+You have a service spread out over 4 ec2 instances.
 The service requires a majority of instances to be available to function (so
 3 instances in our case) and runs in the following aws availability zones:
 - us-east-1a
@@ -47,7 +50,9 @@ The service requires a majority of instances to be available to function (so
 - us-west-1a
 What kind of possible problems do you see with that configuration?
 
-## 4. You have a kubernetes deployment for a backend. That backend is accessed
+## 4. Question
+
+You have a kubernetes deployment for a backend. That backend is accessed
 by clients through a kubernetes service:
 ```
 apiVersion: v1
@@ -66,10 +71,18 @@ Over time, you notice that load on the backend pods skews. Some pods
 have high load, others barely any at all.
 What might be possible problems?
 
-## 5. You have a workload on kubernetes and notice that it looses too many
+## 5. Question
+
+You have a workload on kubernetes and notice that it looses too many
 pods during kubernetes node updates.
 How could you fix the problem or make it less bad?
-## 6. Describe what a remote state backend does in terraform.
-## 7. You are using a service that works 95% of the time.
+
+## 6. Question
+
+Describe what a remote state backend does in terraform.
+
+## 7. Question
+
+You are using a service that works 95% of the time.
 Assuming you can replicate the service: how many replicas would you need
 to reach 99% for all replicas combined (at least 1 online) ?
