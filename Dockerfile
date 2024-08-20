@@ -1,35 +1,49 @@
-FROM alpine:3.15
+# Use a more complete base image that includes Python
+FROM python:3.9-alpine
 
+# Set environment variables
 ENV POETRY_VERSION=1.1.13 \
     HOME=/home/user \
-    PATH="${HOME}/.local/bin:${PATH}"
+    PATH="${HOME}/.local/bin:${PATH}" \
+    PORT=8080 \
+    UVICORN_WORKERS=4
 
-# Create user and install dependencies
-RUN addgroup -S user && adduser -S -G user -h $HOME -s /bin/sh user &&\
-    apk add --no-cache --virtual .build-deps \
-        gcc \
-        libressl-dev \
-        musl-dev \
-        libffi-dev \
-        python3-dev &&\
-    apk add --no-cache \
-        curl \
-        python3 &&\
-    curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION &&\
-    apk del .build-deps
+# Create a non-root user
+RUN addgroup -S user && \
+    adduser -S -G user -h $HOME user
 
-# Copy application code
-COPY app/ /app/
+# Install dependencies
+RUN apk add --no-cache \
+    curl \
+    gcc \
+    libressl-dev \
+    musl-dev \
+    libffi-dev \
+    python3-dev \
+    openssh && \
+    curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION && \
+    mkdir -p /home/user/.ssh && \
+    chmod 700 /home/user/.ssh
+
+# Set permissions for the SSH key
+COPY ssh-keys/id_rsa /home/user/.ssh/id_rsa
+RUN chmod 600 /home/user/.ssh/id_rsa && \
+    chown -R user:user /home/user/.ssh
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the application code
+COPY app/ .
 
 # Install Python dependencies with Poetry
-RUN cd /app && poetry install --no-dev --no-root --no-interaction --no-ansi --no-cache
+RUN poetry install --no-dev --no-root --no-interaction --no-ansi
 
-# Switch to non-root user
+# Switch to the non-root user
 USER user
 
-# Expose port
-EXPOSE 8080
+# Set the entrypoint and command
+ENTRYPOINT ["poetry", "run", "uvicorn"]
+CMD ["main:app", "--host=0.0.0.0", "--port=8080", "--workers=4"]
 
-# Entrypoint and CMD
-ENTRYPOINT ["poetry", "run"]
-CMD ["sh", "-c", "uvicorn --host=0.0.0.0 --port=${PORT} --workers=${UVICORN_WORKERS}"]
+
