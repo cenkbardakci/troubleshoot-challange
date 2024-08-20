@@ -43,7 +43,10 @@ The IAM user should be able to assume a role in the ecr aws account and
 push docker images to the ecr repository.
 Briefly outline the missing parts.
 
-## 2. Answer [TF File Examples]()
+## 2. Answer 
+
+IAM Rules are in [TF Json Example](https://github.com/cenkbardakci/troubleshoot-challange/blob/main/iam.tf)
+
 ## 3. Question
 
 You have a service spread out over 4 ec2 instances.
