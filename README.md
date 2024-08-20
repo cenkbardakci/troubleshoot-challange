@@ -33,7 +33,7 @@ CMD ["uvicorn", "--host=0.0.0.0", "--port=$PORT", "--workers=$UVICORN_WORKERS"]
 
 ## 1. Answer 
 
-Answers are in the new [Dockerfile](https://github.com/cenkbardakci/troubleshoot-challange/Dockerfile).
+Answers are in the new [Dockerfile](https://github.com/cenkbardakci/troubleshoot-challange/blob/main/Dockerfile).
 
 ## 2. Question
 
