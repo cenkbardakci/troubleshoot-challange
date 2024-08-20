@@ -93,6 +93,24 @@ Over time, you notice that load on the backend pods skews. Some pods
 have high load, others barely any at all.
 What might be possible problems?
 
+### 4. Answer
+
+After you check situation of usage with this command
+
+```
+kubectl top nodes 
+kubectl top pods
+```
+
+You can follow up these steps 
+
+- Sticky Sessions (If client redirects same pod repetitively) Solution "sessionAffinity: None"
+- Load Balancing IPtables vs IPVS (iptables offer round robbing IPVS is more sophisticated) Solution: "--proxy-mode=ipvs" after check the mode "kubectl describe configmap kube-proxy -n kube-system"
+- Check Pods Resource Usage with kubectl top pods if pods are not balanced. 
+- Readiness / Liveness Prod: check configs are correct and not too agressive. 
+
+
+
 ## 5. Question
 
 You have a workload on kubernetes and notice that it looses too many
