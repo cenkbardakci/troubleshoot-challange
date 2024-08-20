@@ -62,13 +62,13 @@ What kind of possible problems do you see with that configuration?
 
 There are 3 important issues on this deployment strategy. 
 
-### 1. Single Point of Failure
+#### 1. Single Point of Failure
 - **Single Point of Failure:** If we keep `us-west-1a` as 1 AZ, when an AZ outage happens, we lose the entire region.
 
-### 2. Network Latency
+#### 2. Network Latency
 - **Network Latency:** Networks are in different regions, so millisecond latencies will occur. While you could use **CloudFront** or **VPC peering**, why introduce extra services?
 
-### 3. Regional Failure
+#### 3. Regional Failure
 - **Regional Failure:** If we lose the `us-east` region, then we only have 1 instance left, and the service will not run. This is another significant issue.
 
 **Recommendation:** Create 4 AZs in the same region if the region’s AZ count matches. Additionally, establish another region with 4 AZs for redundancy. If your services support it, consider implementing an active-passive deployment.
